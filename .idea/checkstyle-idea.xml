@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CheckStyle-IDEA" serialisationVersion="2">
+    <checkstyleVersion>10.13.0</checkstyleVersion>
+    <scanScope>AllSourcesWithTests</scanScope>
+    <suppressErrors>true</suppressErrors>
+    <copyLibs>true</copyLibs>
+    <option name="thirdPartyClasspath" />
+    <option name="activeLocationIds">
+      <option value="911b2be2-62fa-4322-b066-3fcf0be228cc" />
+    </option>
+    <option name="locations">
+      <list>
+        <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation id="911b2be2-62fa-4322-b066-3fcf0be228cc" type="HTTP_URL" scope="All" description="BIU">
+          https://raw.githubusercontent.com/wiki/ariecattan/biuoop2022/data/checkstyle/biuoop.xml
+          <option name="properties">
+            <map>
+              <entry key="org.checkstyle.sun.suppressionfilter.config" value="" />
+              <entry key="org.checkstyle.sun.suppressionxpathfilter.config" value="" />
+            </map>
+          </option>
+        </ConfigurationLocation>
+      </list>
+    </option>
+  </component>
+</project>
