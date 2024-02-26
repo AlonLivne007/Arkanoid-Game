@@ -1,4 +1,5 @@
-package baseGeometry;//Alon Livne (ID: 208688762)
+//Alon Livne (ID: 208688762)
+package baseGeometry;
 
 import myUtill.MyUtilities;
 
@@ -37,10 +38,7 @@ public class Point {
      * @return true if the points are equal, false otherwise.
      */
     public boolean equals(Point other) {
-        if (MyUtilities.isEqual(this.x, other.x) && MyUtilities.isEqual(this.y, other.y)) {
-            return true;
-        }
-        return false;
+        return MyUtilities.isEqual(this.x, other.x) && MyUtilities.isEqual(this.y, other.y);
     }
 
     /**

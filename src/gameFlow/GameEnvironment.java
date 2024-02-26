@@ -1,8 +1,11 @@
-package gameFlow;//Alon Livne (ID: 208688762)
+//Alon Livne (ID: 208688762)
+package gameFlow;
 
-import baseGeometry.*;
+import baseGeometry.Line;
+import baseGeometry.Point;
 import myUtill.MyUtilities;
-import sprites.collidables.*;
+import sprites.collidables.Collidable;
+import sprites.collidables.CollisionInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +15,13 @@ import java.util.List;
  */
 public class GameEnvironment {
     // A collection to store collidables in the environment.
-    private List<Collidable> collidables;
+    private List<Collidable> collidableList;
 
     /**
      * Constructs a new GameEnvironment.
      */
     public GameEnvironment() {
-        this.collidables = new ArrayList<>();
+        this.collidableList = new ArrayList<>();
     }
 
     /**
@@ -27,7 +30,16 @@ public class GameEnvironment {
      * @param c The collidable object to be added.
      */
     public void addCollidable(Collidable c) {
-        collidables.add(c);
+        collidableList.add(c);
+    }
+
+    /**
+     * Removes a collidable object from the game environment.
+     *
+     * @param c The collidable object to be removed.
+     */
+    public void removeCollidable(Collidable c) {
+        collidableList.remove(c);
     }
 
     /**
@@ -47,6 +59,7 @@ public class GameEnvironment {
         double currentDistance;
         Point closestCollidePoint;
         Point currentCollidePoint;
+        List<Collidable> collidables = new ArrayList<>(collidableList);
         // Iterate over each collidable object
         for (Collidable collidable : collidables) {
             // Find the closest intersection point between the trajectory and the collidable rectangle

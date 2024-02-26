@@ -1,4 +1,5 @@
-package sprites.collidables;//Alon Livne (ID: 208688762)
+//Alon Livne (ID: 208688762)
+package sprites.collidables;
 
 import baseGeometry.Point;
 import baseGeometry.Velocity;
@@ -8,9 +9,10 @@ import biuoop.GUI;
 import biuoop.KeyboardSensor;
 import gameFlow.Game;
 import myUtill.MyUtilities;
+import sprites.Ball;
 import sprites.Sprite;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * The Paddle class represents the paddle in the game. It implements both the Sprite and Collidable interfaces.
@@ -118,7 +120,7 @@ public class Paddle implements Sprite, Collidable {
      * @return The new velocity after the hit event.
      */
     @Override
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
         // Create a new velocity object with the same values as the current velocity.
         Velocity newVelocity = new Velocity(currentVelocity.getDx(), currentVelocity.getDy());
         // If the collision occurred on the left or right side, reverse the horizontal direction.

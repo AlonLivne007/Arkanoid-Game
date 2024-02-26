@@ -1,8 +1,9 @@
-package baseGeometry;//Alon Livne (ID: 208688762)
+package baseGeometry;
+//Alon Livne (ID: 208688762)
 
 import biuoop.DrawSurface;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,7 +126,7 @@ public class Rectangle {
      * @return The list of intersection points.
      */
     public java.util.List<Point> intersectionPoints(Line line) {
-        List<Point> intersections = new ArrayList<Point>();
+        List<Point> intersections = new ArrayList<>();
         // Check for intersections with each side of the rectangle
         Point inter = rightLine.intersectionWith(line);
         if (inter != null) {

@@ -1,11 +1,15 @@
-package sprites;//Alon Livne (ID: 208688762)
+//Alon Livne (ID: 208688762)
+package sprites;
 
-import baseGeometry.*;
+import baseGeometry.Line;
+import baseGeometry.Point;
+import baseGeometry.Rectangle;
+import baseGeometry.Velocity;
 import biuoop.DrawSurface;
 import gameFlow.Game;
 import gameFlow.GameEnvironment;
 import myUtill.MyUtilities;
-import sprites.collidables.*;
+import sprites.collidables.CollisionInfo;
 
 import java.awt.Color;
 import java.util.Random;
@@ -211,7 +215,7 @@ public class Ball implements Sprite {
                     collisionInfo.getCollisionPoint());
 
             // Update the ball's velocity based on the collision
-            this.setVelocity(collisionInfo.getCollisionObject().hit(collisionInfo.getCollisionPoint(), velocity));
+            this.setVelocity(collisionInfo.getCollisionObject().hit(this, collisionInfo.getCollisionPoint(), velocity));
         }
     }
 

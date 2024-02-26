@@ -1,4 +1,5 @@
-package sprites;//Alon Livne (ID: 208688762)
+//Alon Livne (ID: 208688762)
+package sprites;
 
 import biuoop.DrawSurface;
 import gameFlow.Game;

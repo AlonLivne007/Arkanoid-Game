@@ -1,4 +1,5 @@
-package baseGeometry;//Alon Livne (ID: 208688762)
+//Alon Livne (ID: 208688762)
+package baseGeometry;
 
 /**
  * The Velocity class specifies the change in position on the `x` and `y` axes.

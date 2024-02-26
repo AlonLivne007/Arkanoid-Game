@@ -115,10 +115,7 @@ public class Line {
             return false;
         }
 //        check if there is a valid intersection
-        if (intersectionWith(other) == null) {
-            return false;
-        }
-        return true;
+        return intersectionWith(other) != null;
     }
 
     /**

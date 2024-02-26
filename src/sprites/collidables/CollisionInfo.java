@@ -1,4 +1,5 @@
-package sprites.collidables;//Alon Livne (ID: 208688762)
+//Alon Livne (ID: 208688762)
+package sprites.collidables;
 
 import baseGeometry.Point;
 

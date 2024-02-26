@@ -1,9 +1,11 @@
-package gameFlow;//Alon Livne (ID: 208688762)
+//Alon Livne (ID: 208688762)
+package gameFlow;
 
 import biuoop.DrawSurface;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import sprites.Sprite;
 
 /**
@@ -30,11 +32,21 @@ public class SpriteCollection {
     }
 
     /**
+     * Remove the given sprite from the list of sprites.
+     *
+     * @param s The sprite to be removed.
+     */
+    public void removeSprite(Sprite s) {
+        spriteList.remove(s);
+    }
+
+    /**
      * Calls the timePassed() method on all sprites in the collection.
      * This method is typically invoked in each frame of the game.
      */
     public void notifyAllTimePassed() {
-        for (Sprite s : spriteList) {
+        List<Sprite> sprites = new ArrayList<>(this.spriteList);
+        for (Sprite s : sprites) {
             s.timePassed();
         }
     }
@@ -46,7 +58,8 @@ public class SpriteCollection {
      * @param d The DrawSurface on which the sprites should be drawn.
      */
     public void drawAllOn(DrawSurface d) {
-        for (Sprite s : spriteList) {
+        List<Sprite> sprites = new ArrayList<>(this.spriteList);
+        for (Sprite s : sprites) {
             s.drawOn(d);
         }
     }

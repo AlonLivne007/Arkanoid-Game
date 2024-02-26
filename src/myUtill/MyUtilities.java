@@ -1,7 +1,7 @@
 package myUtill;
 // Alon Livne (ID: 208688762)
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Random;
 
 /**
