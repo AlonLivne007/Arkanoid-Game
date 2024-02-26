@@ -8,10 +8,14 @@ import baseGeometry.Velocity;
 import biuoop.DrawSurface;
 import gameFlow.Game;
 import gameFlow.GameEnvironment;
+import gameFlow.HitListener;
 import myUtill.MyUtilities;
 import sprites.collidables.CollisionInfo;
 
+
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -24,6 +28,7 @@ public class Ball implements Sprite {
     private GameEnvironment environment;
     private java.awt.Color color;
     private Velocity velocity;
+    private List<HitListener> hitListeners;
 
 
     // constructors
@@ -42,6 +47,7 @@ public class Ball implements Sprite {
         this.color = color;
         this.setVelocity(0, 0);
         this.environment = environment;
+        this.hitListeners = new ArrayList<>();
     }
 
     /**
@@ -88,15 +94,6 @@ public class Ball implements Sprite {
      */
     public int getSize() {
         return (int) Math.round(size);
-    }
-
-    /**
-     * Sets the size of the ball.
-     *
-     * @param size The new size of the ball.
-     */
-    public void setSize(double size) {
-        this.size = size;
     }
 
     /**
@@ -265,5 +262,14 @@ public class Ball implements Sprite {
     @Override
     public void addToGame(Game game) {
         game.addSprite(this);
+    }
+
+    /**
+     * Removes the ball from the specified game.
+     *
+     * @param game The Game object from which the ball should be removed.
+     */
+    public void removeFromGame(Game game) {
+        game.removeSprite(this);
     }
 }

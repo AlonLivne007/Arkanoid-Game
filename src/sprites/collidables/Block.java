@@ -112,16 +112,6 @@ public class Block implements Collidable, Sprite, HitNotifier {
     }
 
     /**
-     * Checks if the color of the block matches the color of the ball.
-     *
-     * @param ball The ball to check against.
-     * @return True if colors match, false otherwise.
-     */
-    public boolean ballColorMatch(Ball ball) {
-        return this.color.equals(ball.getColor());
-    }
-
-    /**
      * Removes the block from the specified game, both as a sprite and a collidable object.
      *
      * @param game The Game object from which the sprite and collidable should be removed.
@@ -129,6 +119,16 @@ public class Block implements Collidable, Sprite, HitNotifier {
     public void removeFromGame(Game game) {
         game.removeCollidable(this);
         game.removeSprite(this);
+    }
+
+    /**
+     * Checks if the color of the block matches the color of the ball.
+     *
+     * @param ball The ball to check against.
+     * @return True if colors match, false otherwise.
+     */
+    public boolean ballColorMatch(Ball ball) {
+        return this.color.equals(ball.getColor());
     }
 
     @Override

@@ -23,8 +23,10 @@ public class Game {
     private GameEnvironment environment;
     private GUI gui;
     private Sleeper sleeper;
-    private Counter counter;
+    private Counter blockCounter;
+    private Counter ballCounter;
     private BlockRemover blockRemover;
+    private BallRemover ballRemover;
 
     /**
      * Constructs a new Game instance.
@@ -34,8 +36,10 @@ public class Game {
         this.environment = new GameEnvironment();
         this.sleeper = new Sleeper();
         this.gui = new GUI("Game", 800, 600);
-        this.counter = new Counter();
-        this.blockRemover = new BlockRemover(this, counter);
+        this.blockCounter = new Counter();
+        this.blockRemover = new BlockRemover(this, blockCounter);
+        this.ballCounter = new Counter();
+        this.ballRemover = new BallRemover(this, ballCounter);
     }
 
     /**
@@ -61,26 +65,41 @@ public class Game {
      */
     public void initialize() {
 
-        // Create borders, paddle, and add them to the game environment
+        // Create borders and add them to the game .
         Block borderLeft = new Block(new Rectangle(new Point(0, 0), 20, 600), Color.GRAY);
         Block borderRight = new Block(new Rectangle(new Point(780, 0), 20, 600), Color.GRAY);
         Block borderTop = new Block(new Rectangle(new Point(0, 0), 800, 20), Color.GRAY);
-        Block borderBottom = new Block(new Rectangle(new Point(0, 580), 800, 20), Color.GRAY);
-        Paddle paddle = new Paddle(new Rectangle(new Point(385, 560), 100, 20), gui, 4, Color.PINK);
-        // add the borders, paddle to the game
         borderTop.addToGame(this);
         borderLeft.addToGame(this);
         borderRight.addToGame(this);
-        borderBottom.addToGame(this);
+
+//        Create death block, and add it to the game.
+        Block deathRegion = new Block(new Rectangle(new Point(0, 580), 800, 20), Color.GRAY);
+        deathRegion.addToGame(this);
+        deathRegion.addHitListener(ballRemover);
+
+        // Create  paddle and add it to the game.
+        Paddle paddle = new Paddle(new Rectangle(new Point(385, 560), 100, 20), gui, 5, Color.PINK);
         paddle.addToGame(this);
 
         // Create balls and add them to the game
-        Ball ball1 = new Ball(400, 300, 4, java.awt.Color.BLUE, this.environment);
-        ball1.setVelocity(4, 4);
-        ball1.addToGame(this);
-        Ball ball2 = new Ball(400, 300, 4, Color.RED, this.environment);
-        ball2.setVelocity(3, 3);
-        ball2.addToGame(this);
+        int numOfBalls = 3;
+        for (int i = 0; i < numOfBalls; i++) {
+            Color ballColor;
+            ballColor = switch (i) {
+                case 0 -> Color.RED;
+                case 1 -> Color.ORANGE;
+                case 2 -> Color.GREEN;
+                case 3 -> Color.YELLOW;
+                case 4 -> Color.BLUE;
+                case 5 -> Color.MAGENTA;
+                default -> Color.BLACK;
+            };
+            Ball ball = new Ball(400, 300, 4, ballColor, this.environment);
+            ball.setVelocity(2 + 0.5 * i, 2 + 0.5 * i);
+            ball.addToGame(this);
+        }
+        ballCounter.increase(numOfBalls);
 
         // Add 6 lines of blocks with decreasing block count and different colors
         for (int i = 0; i < 6; i++) {
@@ -105,7 +124,7 @@ public class Game {
                 block.addToGame(this);
                 block.addHitListener(blockRemover);
             }
-            counter.increase(numOfBlocks);
+            blockCounter.increase(numOfBlocks);
         }
     }
 
@@ -129,14 +148,16 @@ public class Game {
 
 
     /**
-     * Runs the game - starts the animation loop.
+     * Runs the game loop, managing the animation and timing of each frame.
+     * The game loop continues as long as there are remaining blocks and balls in the game.
      */
     public void run() {
+        // Set the desired frames per second and calculate milliseconds per frame
         int framesPerSecond = 60;
         int millisecondsPerFrame = 1000 / framesPerSecond;
 
-        // Continue the game loop as long as there are blocks remaining
-        while (counter.getValue() > 0) {
+        // Continue the game loop as long as there are blocks remaining and balls in play
+        while (blockCounter.getValue() > 0 && ballCounter.getValue() > 0) {
             long startTime = System.currentTimeMillis(); // Timing the frame start
 
             DrawSurface d = gui.getDrawSurface();
