@@ -1,5 +1,11 @@
 //Alon Livne (ID: 208688762)
+
 package sprites;
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import baseGeometry.Line;
 import baseGeometry.Point;
@@ -13,10 +19,6 @@ import myUtill.MyUtilities;
 import sprites.collidables.CollisionInfo;
 
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * The Ball class represents a ball in a 2D space.

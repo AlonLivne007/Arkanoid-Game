@@ -7,6 +7,7 @@ import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
 import sprites.Ball;
+import sprites.ScoreIndicator;
 import sprites.Sprite;
 import sprites.collidables.Block;
 import sprites.collidables.Collidable;
@@ -14,6 +15,7 @@ import sprites.collidables.Paddle;
 
 
 import java.awt.Color;
+import java.util.Random;
 
 /**
  * The Game class represents the main logic of the game, managing sprites, the game environment, and the GUI.
@@ -23,10 +25,12 @@ public class Game {
     private GameEnvironment environment;
     private GUI gui;
     private Sleeper sleeper;
+    private Counter scoreCounter;
     private Counter blockCounter;
     private Counter ballCounter;
-    private BlockRemover blockRemover;
-    private BallRemover ballRemover;
+    private BlockRemover blockRemoverListener;
+    private BallRemover ballRemoverListener;
+    private ScoreTrackingListener scoreTrackingListener;
 
     /**
      * Constructs a new Game instance.
@@ -36,10 +40,12 @@ public class Game {
         this.environment = new GameEnvironment();
         this.sleeper = new Sleeper();
         this.gui = new GUI("Game", 800, 600);
+        this.scoreCounter = new Counter();
+        this.scoreTrackingListener = new ScoreTrackingListener(scoreCounter);
         this.blockCounter = new Counter();
-        this.blockRemover = new BlockRemover(this, blockCounter);
+        this.blockRemoverListener = new BlockRemover(this, blockCounter);
         this.ballCounter = new Counter();
-        this.ballRemover = new BallRemover(this, ballCounter);
+        this.ballRemoverListener = new BallRemover(this, ballCounter);
     }
 
     /**
@@ -61,11 +67,13 @@ public class Game {
     }
 
     /**
-     * Initializes a new game, creating borders, paddle, and adding them to the game environment.
+     * Initializes a new game, creating borders, paddle, death region, balls, and blocks,
+     * and adds them to the game environment.
+     * This method sets up the initial state of the game by defining its components and adding them to the game.
      */
     public void initialize() {
 
-        // Create borders and add them to the game .
+        // Create borders and add them to the game.
         Block borderLeft = new Block(new Rectangle(new Point(0, 0), 20, 600), Color.GRAY);
         Block borderRight = new Block(new Rectangle(new Point(780, 0), 20, 600), Color.GRAY);
         Block borderTop = new Block(new Rectangle(new Point(0, 0), 800, 20), Color.GRAY);
@@ -73,20 +81,20 @@ public class Game {
         borderLeft.addToGame(this);
         borderRight.addToGame(this);
 
-//        Create death block, and add it to the game.
-        Block deathRegion = new Block(new Rectangle(new Point(0, 580), 800, 20), Color.GRAY);
+        // Create death block, and add it to the game.
+        Block deathRegion = new Block(new Rectangle(new Point(0, 600), 800, 20), Color.GRAY);
         deathRegion.addToGame(this);
-        deathRegion.addHitListener(ballRemover);
+        deathRegion.addHitListener(ballRemoverListener);
 
-        // Create  paddle and add it to the game.
+        // Create paddle and add it to the game.
         Paddle paddle = new Paddle(new Rectangle(new Point(385, 560), 100, 20), gui, 5, Color.PINK);
         paddle.addToGame(this);
 
-        // Create balls and add them to the game
+        Random rand = new Random();
+        // Create balls and add them to the game.
         int numOfBalls = 3;
         for (int i = 0; i < numOfBalls; i++) {
-            Color ballColor;
-            ballColor = switch (i) {
+            Color ballColor = switch (rand.nextInt(6)) {
                 case 0 -> Color.RED;
                 case 1 -> Color.ORANGE;
                 case 2 -> Color.GREEN;
@@ -96,12 +104,12 @@ public class Game {
                 default -> Color.BLACK;
             };
             Ball ball = new Ball(400, 300, 4, ballColor, this.environment);
-            ball.setVelocity(2 + 0.5 * i, 2 + 0.5 * i);
+            ball.setVelocity(0, 1.5 + i);
             ball.addToGame(this);
         }
         ballCounter.increase(numOfBalls);
 
-        // Add 6 lines of blocks with decreasing block count and different colors
+        // Add 6 lines of blocks with decreasing block count and different colors.
         for (int i = 0; i < 6; i++) {
             int numOfBlocks = 12 - i * 2;
             double blockWidth = 60;
@@ -110,7 +118,7 @@ public class Game {
             Point start = new Point(40 + blockWidth * i, 20 + blockHeight * i);
 
             for (int j = 0; j < numOfBlocks; j++) {
-                blockColor = switch (i) {
+                blockColor = switch (rand.nextInt(6)) {
                     case 0 -> Color.RED;
                     case 1 -> Color.ORANGE;
                     case 2 -> Color.YELLOW;
@@ -122,11 +130,16 @@ public class Game {
                 Block block = new Block(new Rectangle(new Point(start.getX() + j * blockWidth, start.getY()),
                         blockWidth, blockHeight), blockColor);
                 block.addToGame(this);
-                block.addHitListener(blockRemover);
+                block.addHitListener(blockRemoverListener);
+                block.addHitListener(scoreTrackingListener);
             }
             blockCounter.increase(numOfBlocks);
         }
+        // Add the score indicator to the game.
+        Sprite scoreIndicator = new ScoreIndicator(scoreCounter);
+        scoreIndicator.addToGame(this);
     }
+
 
     /**
      * Removes a collidable object from the game environment.
@@ -178,6 +191,11 @@ public class Game {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
         }
+        this.scoreCounter.increase(100);
+        DrawSurface d = gui.getDrawSurface();
+        // Draw all sprites on the DrawSurface
+        this.sprites.drawAllOn(d);
+        gui.show(d);
 
         // Close the GUI after the game loop ends
         gui.close();

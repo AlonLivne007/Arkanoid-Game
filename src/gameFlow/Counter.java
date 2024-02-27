@@ -19,7 +19,7 @@ public class Counter {
      *
      * @param number The number to increase the counter by.
      */
-    void increase(int number) {
+    public void increase(int number) {
         this.count = this.count + number;
     }
 
@@ -28,7 +28,7 @@ public class Counter {
      *
      * @param number The number to decrease the counter by.
      */
-    void decrease(int number) {
+    public void decrease(int number) {
         this.count = this.count - number;
     }
 
@@ -37,7 +37,7 @@ public class Counter {
      *
      * @return The current count.
      */
-    int getValue() {
+    public int getValue() {
         return this.count;
     }
 }

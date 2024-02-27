@@ -22,6 +22,12 @@ public class BlockRemover implements HitListener {
         this.game = game;
     }
 
+    /**
+     * This method is called when a block is hit by a ball, triggering the block removal process.
+     *
+     * @param beingHit The Block that was hit.
+     * @param hitter   The Ball that's doing the hitting.
+     */
     @Override
     public void hitEvent(Block beingHit, Ball hitter) {
         hitter.setColor(beingHit.getColor());

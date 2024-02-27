@@ -6,7 +6,7 @@ import gameFlow.Game;
  * The main class for running the Ass3Game application.
  * Initializes and runs the game.
  */
-public class Ass3Game {
+public class Ass5Game {
     /**
      * The main method that creates a Game instance, initializes it, and runs the game.
      *
